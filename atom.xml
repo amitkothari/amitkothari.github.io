@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title><![CDATA[I'm Amit Kothari]]></title>
+  <subtitle><![CDATA[Traveller & Foodie, I write code for fun and living]]></subtitle>
+  <link href="/atom.xml" rel="self"/>
+  <link href="http://amitkothari.com/"/>
+  <updated>2015-12-01T15:33:17.000Z</updated>
+  <id>http://amitkothari.com/</id>
+  
+  <author>
+    <name><![CDATA[Amit Kothari]]></name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[React Native app Automation using Fastlane]]></title>
+    <link href="http://amitkothari.com/2015/11/30/React-Native-app-Automation-using-Fastlane/"/>
+    <id>http://amitkothari.com/2015/11/30/React-Native-app-Automation-using-Fastlane/</id>
+    <published>2015-11-30T15:00:05.000Z</published>
+    <updated>2015-12-01T15:33:17.000Z</updated>
+    <content type="html"></content>
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="react-native" scheme="http://amitkothari.com/tags/react-native/"/>
+    
+      <category term="development" scheme="http://amitkothari.com/categories/development/"/>
+    
+      <category term="mobile app" scheme="http://amitkothari.com/categories/development/mobile-app/"/>
+    
+  </entry>
+  
+</feed>
