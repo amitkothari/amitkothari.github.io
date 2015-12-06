@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Traveller & Foodie, I write code for fun and living]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://amitkothari.com/"/>
-  <updated>2015-12-06T10:14:58.000Z</updated>
+  <updated>2015-12-06T10:14:59.000Z</updated>
   <id>http://amitkothari.com/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://amitkothari.com/2015/11/30/Continuous-deployment-of-React-Native-app-using-Fastlane/"/>
     <id>http://amitkothari.com/2015/11/30/Continuous-deployment-of-React-Native-app-using-Fastlane/</id>
     <published>2015-11-30T15:00:05.000Z</published>
-    <updated>2015-12-06T10:14:58.000Z</updated>
+    <updated>2015-12-06T10:14:59.000Z</updated>
     <content type="html"><![CDATA[<p>React Native has gained a lot of popularity since it was introduced and open-sourced by Facebook early this year. The framework uses JavaScript to build mobile apps and now supports both iOS and Android.</p>
 <p>After playing with the framework, I decided to write a simple iOS app using react native and the first thing I wanted to do was to setup an automated deployment pipeline so that everytime I push new changes to my git repository, my continuous integration server can run the tests and upload the new app build to TestFlight.</p>
 <p>I decided to use <a href="http://fastlane.tools" target="_blank" rel="external">Fastlane</a> which is an iOS automation toolset, recently acquired by Twitter and is now a part of <a href="https://fabric.io/" target="_blank" rel="external">Fabric</a>.</p>
