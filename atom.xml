@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Traveller & Foodie, I write code for fun and living]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://amitkothari.com/"/>
-  <updated>2015-12-01T15:33:17.000Z</updated>
+  <updated>2015-12-06T10:14:58.000Z</updated>
   <id>http://amitkothari.com/</id>
   
   <author>
@@ -15,14 +15,58 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title><![CDATA[React Native app Automation using Fastlane]]></title>
-    <link href="http://amitkothari.com/2015/11/30/React-Native-app-Automation-using-Fastlane/"/>
-    <id>http://amitkothari.com/2015/11/30/React-Native-app-Automation-using-Fastlane/</id>
+    <title><![CDATA[Continuous deployment of React Native app using Fastlane]]></title>
+    <link href="http://amitkothari.com/2015/11/30/Continuous-deployment-of-React-Native-app-using-Fastlane/"/>
+    <id>http://amitkothari.com/2015/11/30/Continuous-deployment-of-React-Native-app-using-Fastlane/</id>
     <published>2015-11-30T15:00:05.000Z</published>
-    <updated>2015-12-01T15:33:17.000Z</updated>
-    <content type="html"></content>
+    <updated>2015-12-06T10:14:58.000Z</updated>
+    <content type="html"><![CDATA[<p>React Native has gained a lot of popularity since it was introduced and open-sourced by Facebook early this year. The framework uses JavaScript to build mobile apps and now supports both iOS and Android.</p>
+<p>After playing with the framework, I decided to write a simple iOS app using react native and the first thing I wanted to do was to setup an automated deployment pipeline so that everytime I push new changes to my git repository, my continuous integration server can run the tests and upload the new app build to TestFlight.</p>
+<p>I decided to use <a href="http://fastlane.tools" target="_blank" rel="external">Fastlane</a> which is an iOS automation toolset, recently acquired by Twitter and is now a part of <a href="https://fabric.io/" target="_blank" rel="external">Fabric</a>.</p>
+<p>In this post I will go through the steps of creating a very simple React Native app and configuring Fastlane to deploy the app to TestFlight.</p>
+<h3 id="Create_Hello_World_React_Native_App">Create Hello World React Native App</h3><p>Lets start by creating a simple React Native app which will show ‘Hello World’ text. </p>
+<p>If you do not have React Native installed on your machine, please follow <a href="https://facebook.github.io/react-native/docs/getting-started.html" target="_blank" rel="external">these instructions</a>.</p>
+<p>After installing React Native, you can use the CLI to create a new project ‘helloWorldApp’ by running following command.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ react-native init helloWorldApp</span><br></pre></td></tr></table></figure>
+<p>This command will fetch all the dependencies, including React Native source code and will create a new Xcode project for iOS and gradle project for Android.</p>
+<p>Open ios/helloWorldApp.xcodeproj in Xcode and hit run button or press ⌘+r to run the project.</p>
+<p>React Native entry file for the iOS app is index.ios.js . Open this file in your favourite editor and change the content of the render function to</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">render: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      <span class="xml"><span class="tag">&lt;<span class="title">View</span> <span class="attribute">style</span>=<span class="value">&#123;styles.container&#125;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">Text</span> <span class="attribute">style</span>=<span class="value">&#123;styles.welcome&#125;</span>&gt;</span></span><br><span class="line">          Hello World</span><br><span class="line">        <span class="tag">&lt;/<span class="title">Text</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="title">View</span>&gt;</span></span><br><span class="line">    )</span>;</span><br></pre></td></tr></table></figure>
+<p>You can press ⌘+r to reload the app in the simulator for quick feedback cycle.</p>
+<h3 id="Setup_Fastlane_for_automated_deployment">Setup Fastlane for automated deployment</h3><p>Now we have the hello world app working, we will setup Fastlane to work with our app.</p>
+<h4 id="Create_offline_bundle">Create offline bundle</h4><p>The AppDelegate class initialise the app and load React Native JavaScript code. When the app is running in iPhone simulator, AppDelegate loads the JavaScript code from development server. To run the app without development server, we have to create an offline bundle and pack all the JavaScript code within the app. For this we can use React Native CLI bundle command, which will minify and bundle the JavaScript code to main.jsbundle</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ react-native <span class="keyword">bundle </span>--<span class="preprocessor">entry</span>-file ./index.ios.js --platform ios --<span class="keyword">bundle-output </span>ios/main.jsbundle</span><br></pre></td></tr></table></figure>
+<p>Now update the AppDelegate.m (ios/helloWorldApp/AppDelegate.m).</p>
+<p>replace<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jsCodeLocation = [NSURL <span class="string">URLWithString:</span>@<span class="string">"http://localhost:8081/index.ios.bundle?platform=ios&amp;dev=true"</span>];</span><br></pre></td></tr></table></figure></p>
+<p>with<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">ifdef</span> DEBUG</span></span><br><span class="line">     jsCodeLocation = [NSURL URLWithString:@<span class="string">"http://localhost:8081/index.ios.bundle?platform=ios&amp;dev=true"</span>];</span><br><span class="line"> <span class="preprocessor">#<span class="keyword">else</span></span></span><br><span class="line">     jsCodeLocation = [[NSBundle mainBundle] URLForResource:@<span class="string">"main"</span> withExtension:@<span class="string">"jsbundle"</span>];</span><br><span class="line"> <span class="preprocessor">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure></p>
+<h4 id="Initialise_Fastlane">Initialise Fastlane</h4><p>Follow <a href="https://github.com/KrauseFx/fastlane/blob/master/docs/Guide.md" target="_blank" rel="external">these instructions</a> to install Fastlane.</p>
+<p>Once Fastlane is installed, run ‘fastlane init’ command to setup fastlane and create all the necessary files and folders. For this example, I have skipped delivery and snapshot steps.</p>
+<p>Update fastlane/Fastfile file and replace beta config with this.</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">lane </span>:beta do</span><br><span class="line">    sigh</span><br><span class="line"></span><br><span class="line">    <span class="function">increment_build_number</span>(</span><br><span class="line">      <span class="attribute">xcodeproj</span>: <span class="string">'./ios/helloWorldApp.xcodeproj'</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="function">gym</span>(</span><br><span class="line">      <span class="attribute">scheme</span>: <span class="string">'helloWorldApp'</span>,</span><br><span class="line">      <span class="attribute">project</span>: <span class="string">'./ios/helloWorldApp.xcodeproj'</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    pilot</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p>While Fastlane will take care of most of the stuff, we still need to register our app in Apple’s developer center. Login to <a href="https://developer.apple.com" target="_blank" rel="external">developer center</a> and setup the app in iOS Provisioning Portal and iTunes Connect with an explict app id.</p>
+<p>We also need to setup our app to auto increment app’s build and version number.<br><a href="https://developer.apple.com/library/ios/qa/qa1827/_index.html" target="_blank" rel="external">Follow these two steps</a> to enable agvtool and set up version and build number.</p>
+<p>While you have the Xcode open, also set the bundle identifier (com.amitkothari.helloworldapp) and team under the general tab.</p>
+<p>We also need to add app icon and launch screen images before uploading the app to TestFlight.</p>
+<p>We can now create another entry in the package.json scripts, to bundle and deploy the app in a single command.</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  "<span class="attribute">name</span>": <span class="value"><span class="string">"helloWorldApp"</span></span>,</span><br><span class="line">  "<span class="attribute">version</span>": <span class="value"><span class="string">"0.0.1"</span></span>,</span><br><span class="line">  "<span class="attribute">private</span>": <span class="value"><span class="literal">true</span></span>,</span><br><span class="line">  "<span class="attribute">scripts</span>": <span class="value">&#123;</span><br><span class="line">    "<span class="attribute">start</span>": <span class="value"><span class="string">"react-native start"</span></span>,</span><br><span class="line">    "<span class="attribute">deploy</span>": <span class="value"><span class="string">"react-native bundle --entry-file ./index.ios.js --platform ios --bundle-output ios/main.jsbundle &amp;&amp; fastlane beta"</span></span><br><span class="line">  </span>&#125;</span>,</span><br><span class="line">  "<span class="attribute">dependencies</span>": <span class="value">&#123;</span><br><span class="line">    "<span class="attribute">react-native</span>": <span class="value"><span class="string">"^0.15.0"</span></span><br><span class="line">  </span>&#125;</span><br><span class="line"></span>&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Additional_steps">Additional steps</h3><ul>
+<li><p>If your apple id is associated with multiple teams. You may get a prompt to select the team while running Fastlane command. To avoid this update fastlane/Appfile and enter team id and name.</p>
+</li>
+<li><p>If you get exportArchive or IDEDistributionErrorDomain error similar to <a href="https://github.com/fastlane/gym/issues/89" target="_blank" rel="external">this issue</a>, add ‘use_legacy_build_api: true’ under gym configuration.</p>
+</li>
+</ul>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">gym(</span><br><span class="line">      scheme: <span class="string">'helloWorldApp'</span>,</span><br><span class="line">      <span class="keyword">project</span>: <span class="string">'./ios/helloWorldApp.xcodeproj'</span></span><br><span class="line">      use_legacy_build_api: <span class="keyword">true</span></span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
+<ul>
+<li>If you get the following error</li>
+</ul>
+<blockquote>
+<p>“Invalid Provisioning Profile. The provisioning profile included in the bundle com.amitkothari.helloWorldApp [Payload/helloWorldApp.app] is invalid. [Missing code-signing certificate]. A Distribution Provisioning profile should be used when submitting apps to the App Store. For more information, visit the iOS Developer Portal.”</p>
+</blockquote>
+<p>Open the app in Xcode and under the build setting tab, set code signing provisioning profile to “$(PROFILE_UUID)” . See the image below or read <a href="https://github.com/fastlane/fastlane/blob/master/docs/CodeSigning.md" target="_blank" rel="external">this</a> for more details.</p>
+<img src="/2015/11/30/Continuous-deployment-of-React-Native-app-using-Fastlane/image.png" alt="Set provisiong profile in Xcode" title="Set provisiong profile in Xcode">
+]]></content>
     <summary type="html">
-    
+    <![CDATA[<p>React Native has gained a lot of popularity since it was introduced and open-sourced by Facebook early this year. The framework uses Java]]>
     </summary>
     
       <category term="react-native" scheme="http://amitkothari.com/tags/react-native/"/>
