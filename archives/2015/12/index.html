@@ -6,23 +6,21 @@
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="I&#39;m Amit Kothari">
-    <title>Continuous deployment of React Native app using Fastlane - I&#39;m Amit Kothari</title>
+    <title>Archives: 2015/12 - I&#39;m Amit Kothari</title>
     <meta name="author" content="Amit Kothari">
     
     
         <link rel="alternative" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="React Native has gained a lot of popularity since it was introduced and open-sourced by Facebook early this year. The framework uses JavaScript to build mobile apps and now supports both iOS and Andro">
+    <meta name="description" content="Traveller &amp; Foodie, I write code for fun and living">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Continuous deployment of React Native app using Fastlane">
-<meta property="og:url" content="http://amitkothari.com/2015/11/30/Continuous-deployment-of-React-Native-app-using-Fastlane/index.html">
+<meta property="og:title" content="I'm Amit Kothari">
+<meta property="og:url" content="http://amitkothari.com/archives/2015/12/index.html">
 <meta property="og:site_name" content="I'm Amit Kothari">
-<meta property="og:description" content="React Native has gained a lot of popularity since it was introduced and open-sourced by Facebook early this year. The framework uses JavaScript to build mobile apps and now supports both iOS and Andro">
-<meta property="og:image" content="http://amitkothari.com/2015/11/30/Continuous-deployment-of-React-Native-app-using-Fastlane/image.png">
-<meta property="og:updated_time" content="2015-12-06T10:14:59.000Z">
+<meta property="og:description" content="Traveller &amp; Foodie, I write code for fun and living">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Continuous deployment of React Native app using Fastlane">
-<meta name="twitter:description" content="React Native has gained a lot of popularity since it was introduced and open-sourced by Facebook early this year. The framework uses JavaScript to build mobile apps and now supports both iOS and Andro">
+<meta name="twitter:title" content="I'm Amit Kothari">
+<meta name="twitter:description" content="Traveller &amp; Foodie, I write code for fun and living">
 <meta name="twitter:creator" content="@amitkothari">
     
     
@@ -134,22 +132,26 @@
             
             <div id="main" data-behavior="4"
                  class="
-                        hasCoverMetaOut
+                        hasCoverMetaIn
                         ">
                 
-<article class="post" itemscope itemType="http://schema.org/BlogPosting">
     
+
+<section class="postShorten-group main-content-wrap">
     
-        <div class="post-header main-content-wrap text-center">
-    
-        <h1 class="post-title" itemprop="headline">
-            Continuous deployment of React Native app using Fastlane
-        </h1>
-    
-    <div class="post-meta">
-    <time itemprop="datePublished" content="Mon Nov 30 2015 20:30:05 GMT+0530">
+        
+        <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+            <div class="postShorten-wrap">
+                <div class="postShorten-header">
+                    <h1 class="postShorten-title" itemprop="headline">
+                        
+                                <a class="link-unstyled" href="/Continuous-deployment-of-React-Native-app-using-Fastlane/">Continuous deployment of React Native app using Fastlane</a>
+                        
+                    </h1>
+                    <div class="postShorten-meta">
+    <time itemprop="datePublished" content="Tue Dec 08 2015 12:20:00 GMT+0530">
 	
-		    Nov 30, 2015
+		    Dec 08, 2015
     	
     </time>
     
@@ -160,11 +162,11 @@
 
     
 </div>
-</div>
-    
-    <div class="post-content markdown" itemprop="articleBody">
-        <div class="main-content-wrap">
-            <p>React Native has gained a lot of popularity since it was introduced and open-sourced by Facebook early this year. The framework uses JavaScript to build mobile apps and now supports both iOS and Android.</p>
+                </div>
+                
+                
+                    <div class="postShorten-content" itemprop="articleBody">
+                        <p>React Native has gained a lot of popularity since it was introduced and open-sourced by Facebook early this year. The framework uses JavaScript to build mobile apps and now supports both iOS and Android.</p>
 <p>After playing with the framework, I decided to write a simple iOS app using react native and the first thing I wanted to do was to setup an automated deployment pipeline so that everytime I push new changes to my git repository, my continuous integration server can run the tests and upload the new app build to TestFlight.</p>
 <p>I decided to use <a href="http://fastlane.tools" target="_blank" rel="external">Fastlane</a> which is an iOS automation toolset, recently acquired by Twitter and is now a part of <a href="https://fabric.io/" target="_blank" rel="external">Fabric</a>.</p>
 <p>In this post I will go through the steps of creating a very simple React Native app and configuring Fastlane to deploy the app to TestFlight.</p>
@@ -186,8 +188,10 @@
 <h4 id="Initialise_Fastlane">Initialise Fastlane</h4><p>Follow <a href="https://github.com/KrauseFx/fastlane/blob/master/docs/Guide.md" target="_blank" rel="external">these instructions</a> to install Fastlane.</p>
 <p>Once Fastlane is installed, run ‘fastlane init’ command to setup fastlane and create all the necessary files and folders. For this example, I have skipped delivery and snapshot steps.</p>
 <p>Update fastlane/Fastfile file and replace beta config with this.</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">lane </span>:beta do</span><br><span class="line">    sigh</span><br><span class="line"></span><br><span class="line">    <span class="function">increment_build_number</span>(</span><br><span class="line">      <span class="attribute">xcodeproj</span>: <span class="string">'./ios/helloWorldApp.xcodeproj'</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="function">gym</span>(</span><br><span class="line">      <span class="attribute">scheme</span>: <span class="string">'helloWorldApp'</span>,</span><br><span class="line">      <span class="attribute">project</span>: <span class="string">'./ios/helloWorldApp.xcodeproj'</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    pilot</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-<p>While Fastlane will take care of most of the stuff, we still need to register our app in Apple’s developer center. Login to <a href="https://developer.apple.com" target="_blank" rel="external">developer center</a> and setup the app in iOS Provisioning Portal and iTunes Connect with an explict app id.</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">lane </span>:beta do</span><br><span class="line">    sigh</span><br><span class="line">    </span><br><span class="line">    <span class="function">produce</span>(</span><br><span class="line">     <span class="attribute">username</span>: <span class="string">'&lt;Apple ID&gt;'</span>,</span><br><span class="line">     <span class="attribute">app_identifier</span>: <span class="string">'com.amitkothari.helloWorldApp'</span>, # Explicit app id</span><br><span class="line">     <span class="attribute">app_name</span>: <span class="string">'Unique App Name'</span>,</span><br><span class="line">     <span class="attribute">language</span>: <span class="string">'English'</span>,</span><br><span class="line">     <span class="attribute">app_version</span>: <span class="string">'1.0'</span>,</span><br><span class="line">     <span class="attribute">sku</span>: <span class="string">'HWAPP'</span>,</span><br><span class="line">     <span class="attribute">team_name</span>: <span class="string">'&lt;Team Name&gt;'</span> # only required when the Apple ID is assocaited with multiple teams</span><br><span class="line">   )</span><br><span class="line"></span><br><span class="line">    <span class="function">increment_build_number</span>(</span><br><span class="line">      <span class="attribute">xcodeproj</span>: <span class="string">'./ios/helloWorldApp.xcodeproj'</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="function">gym</span>(</span><br><span class="line">      <span class="attribute">scheme</span>: <span class="string">'helloWorldApp'</span>,</span><br><span class="line">      <span class="attribute">project</span>: <span class="string">'./ios/helloWorldApp.xcodeproj'</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    pilot</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p><strong>Updated on 8 December 2015</strong></p>
+<p><del>While Fastlane will take care of most of the stuff, we still need to register our app in Apple’s developer center. Login to <a href="https://developer.apple.com" target="_blank" rel="external">developer center</a> and setup the app in iOS Provisioning Portal and iTunes Connect with an explicit app id.</del></p>
+<p>We are using Fastlane <a href="https://github.com/fastlane/produce" target="_blank" rel="external">produce</a> to register our app on Dev portal and iTunes Connect.</p>
 <p>We also need to setup our app to auto increment app’s build and version number.<br><a href="https://developer.apple.com/library/ios/qa/qa1827/_index.html" target="_blank" rel="external">Follow these two steps</a> to enable agvtool and set up version and build number.</p>
 <p>While you have the Xcode open, also set the bundle identifier (com.amitkothari.helloworldapp) and team under the general tab.</p>
 <p>We also need to add app icon and launch screen images before uploading the app to TestFlight.</p>
@@ -207,90 +211,34 @@
 <p>“Invalid Provisioning Profile. The provisioning profile included in the bundle com.amitkothari.helloWorldApp [Payload/helloWorldApp.app] is invalid. [Missing code-signing certificate]. A Distribution Provisioning profile should be used when submitting apps to the App Store. For more information, visit the iOS Developer Portal.”</p>
 </blockquote>
 <p>Open the app in Xcode and under the build setting tab, set code signing provisioning profile to “$(PROFILE_UUID)” . See the image below or read <a href="https://github.com/fastlane/fastlane/blob/master/docs/CodeSigning.md" target="_blank" rel="external">this</a> for more details.</p>
-<img src="/2015/11/30/Continuous-deployment-of-React-Native-app-using-Fastlane/image.png" alt="Set provisiong profile in Xcode" title="Set provisiong profile in Xcode">
+<img src="/Continuous-deployment-of-React-Native-app-using-Fastlane/image.png" alt="Set provisiong profile in Xcode" title="Set provisiong profile in Xcode">
 
-            
+                        
+                            
+
+                        
+                        
+                            <p>
+                                <a href="/Continuous-deployment-of-React-Native-app-using-Fastlane/#post-footer" class="postShorten-excerpt_link link">
+                                    Comment and share
+                                </a>
+                            </p>
+                        
+                    </div>
                 
-
-            
-        </div>
-    </div>
-    <div id="post-footer" class="post-footer main-content-wrap">
-        
-            <div class="post-footer-tags">
-                <span class="text-color-light text-small">TAGGED IN</span><br/>
-                
-    <a class="tag tag--primary tag--small t-link" href="/tags/react-native/">react-native</a>
-
             </div>
-        
-        <div class="post-actions-wrap">
-    <nav>
-        <ul class="post-actions post-action-nav">
-            <li class="post-action">
-                
-                    <a class="post-action-btn btn btn--disabled">
-                
-                    <i class="fa fa-angle-left"></i>
-                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
-                </a>
-            </li>
-            <li class="post-action">
-                
-                    <a class="post-action-btn btn btn--disabled">
-                
-                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
-                    <i class="fa fa-angle-right"></i>
-                </a>
-            </li>
-        </ul>
-    </nav>
-    <ul class="post-actions post-action-share">
-        <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
-                <i class="fa fa-share-alt"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://amitkothari.com/2015/11/30/Continuous-deployment-of-React-Native-app-using-Fastlane/">
-                <i class="fa fa-google-plus"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://amitkothari.com/2015/11/30/Continuous-deployment-of-React-Native-app-using-Fastlane/">
-                <i class="fa fa-facebook-official"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://amitkothari.com/2015/11/30/Continuous-deployment-of-React-Native-app-using-Fastlane/">
-                <i class="fa fa-twitter"></i>
-            </a>
-        </li>
-        
-            <li class="post-action">
-                <a class="post-action-btn btn btn--default" href="#disqus_thread">
-                    <i class="fa fa-comment-o"></i>
-                </a>
-            </li>
-        
-        <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#">
-            
-                <i class="fa fa-list"></i>
-            </a>
-        </li>
+        </article>
+    
+    <div class="pagination-bar">
+    <ul class="pagination">
+        
+        
+        <li class="pagination-number">page 1 of 1</li>
     </ul>
 </div>
 
-
-        
-            <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-        
-    </div>
-</article>
+</section>
 
 
 
@@ -301,89 +249,6 @@
 </footer>
 
             </div>
-            
-                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
-                    <div class="post-actions-wrap">
-    <nav>
-        <ul class="post-actions post-action-nav">
-            <li class="post-action">
-                
-                    <a class="post-action-btn btn btn--disabled">
-                
-                    <i class="fa fa-angle-left"></i>
-                    <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
-                </a>
-            </li>
-            <li class="post-action">
-                
-                    <a class="post-action-btn btn btn--disabled">
-                
-                    <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
-                    <i class="fa fa-angle-right"></i>
-                </a>
-            </li>
-        </ul>
-    </nav>
-    <ul class="post-actions post-action-share">
-        <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
-                <i class="fa fa-share-alt"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://amitkothari.com/2015/11/30/Continuous-deployment-of-React-Native-app-using-Fastlane/">
-                <i class="fa fa-google-plus"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://amitkothari.com/2015/11/30/Continuous-deployment-of-React-Native-app-using-Fastlane/">
-                <i class="fa fa-facebook-official"></i>
-            </a>
-        </li>
-        <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://amitkothari.com/2015/11/30/Continuous-deployment-of-React-Native-app-using-Fastlane/">
-                <i class="fa fa-twitter"></i>
-            </a>
-        </li>
-        
-            <li class="post-action">
-                <a class="post-action-btn btn btn--default" href="#disqus_thread">
-                    <i class="fa fa-comment-o"></i>
-                </a>
-            </li>
-        
-        <li class="post-action">
-            
-                <a class="post-action-btn btn btn--default" href="#">
-            
-                <i class="fa fa-list"></i>
-            </a>
-        </li>
-    </ul>
-</div>
-
-
-                </div>
-                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
-    <ul class="share-options">
-        <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://amitkothari.com/2015/11/30/Continuous-deployment-of-React-Native-app-using-Fastlane/">
-                <i class="fa fa-google-plus"></i><span class="">Share on Google Plus</span>
-            </a>
-        </li>
-        <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://amitkothari.com/2015/11/30/Continuous-deployment-of-React-Native-app-using-Fastlane/">
-                <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
-            </a>
-        </li>
-        <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://amitkothari.com/2015/11/30/Continuous-deployment-of-React-Native-app-using-Fastlane/">
-                <i class="fa fa-twitter"></i><span>Share on Twitter</span>
-            </a>
-        </li>
-    </ul>
-</div>
-<div id="share-options-mask" class="share-options-mask"></div>
             
         </div>
         <!-- Define author's picture -->
@@ -424,17 +289,6 @@
     <!--SCRIPTS-->
 <script src="/assets/js/script.min.js" type="text/javascript"></script>
 <!--SCRIPTS END-->
-
-    <script type="text/javascript">
-        var disqus_shortname = 'amitkothari';
-        (function() {
-            var dsq = document.createElement('script');
-            dsq.type = 'text/javascript';
-            dsq.async = true;
-            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-    </script>
 
 
 

@@ -144,13 +144,13 @@
                 <div class="postShorten-header">
                     <h1 class="postShorten-title" itemprop="headline">
                         
-                                <a class="link-unstyled" href="/2015/11/30/Continuous-deployment-of-React-Native-app-using-Fastlane/">Continuous deployment of React Native app using Fastlane</a>
+                                <a class="link-unstyled" href="/Continuous-deployment-of-React-Native-app-using-Fastlane/">Continuous deployment of React Native app using Fastlane</a>
                         
                     </h1>
                     <div class="postShorten-meta">
-    <time itemprop="datePublished" content="Mon Nov 30 2015 20:30:05 GMT+0530">
+    <time itemprop="datePublished" content="Tue Dec 08 2015 12:20:00 GMT+0530">
 	
-		    Nov 30, 2015
+		    Dec 08, 2015
     	
     </time>
     
@@ -187,8 +187,10 @@
 <h4 id="Initialise_Fastlane">Initialise Fastlane</h4><p>Follow <a href="https://github.com/KrauseFx/fastlane/blob/master/docs/Guide.md" target="_blank" rel="external">these instructions</a> to install Fastlane.</p>
 <p>Once Fastlane is installed, run ‘fastlane init’ command to setup fastlane and create all the necessary files and folders. For this example, I have skipped delivery and snapshot steps.</p>
 <p>Update fastlane/Fastfile file and replace beta config with this.</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">lane </span>:beta do</span><br><span class="line">    sigh</span><br><span class="line"></span><br><span class="line">    <span class="function">increment_build_number</span>(</span><br><span class="line">      <span class="attribute">xcodeproj</span>: <span class="string">'./ios/helloWorldApp.xcodeproj'</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="function">gym</span>(</span><br><span class="line">      <span class="attribute">scheme</span>: <span class="string">'helloWorldApp'</span>,</span><br><span class="line">      <span class="attribute">project</span>: <span class="string">'./ios/helloWorldApp.xcodeproj'</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    pilot</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-<p>While Fastlane will take care of most of the stuff, we still need to register our app in Apple’s developer center. Login to <a href="https://developer.apple.com" target="_blank" rel="external">developer center</a> and setup the app in iOS Provisioning Portal and iTunes Connect with an explict app id.</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">lane </span>:beta do</span><br><span class="line">    sigh</span><br><span class="line">    </span><br><span class="line">    <span class="function">produce</span>(</span><br><span class="line">     <span class="attribute">username</span>: <span class="string">'&lt;Apple ID&gt;'</span>,</span><br><span class="line">     <span class="attribute">app_identifier</span>: <span class="string">'com.amitkothari.helloWorldApp'</span>, # Explicit app id</span><br><span class="line">     <span class="attribute">app_name</span>: <span class="string">'Unique App Name'</span>,</span><br><span class="line">     <span class="attribute">language</span>: <span class="string">'English'</span>,</span><br><span class="line">     <span class="attribute">app_version</span>: <span class="string">'1.0'</span>,</span><br><span class="line">     <span class="attribute">sku</span>: <span class="string">'HWAPP'</span>,</span><br><span class="line">     <span class="attribute">team_name</span>: <span class="string">'&lt;Team Name&gt;'</span> # only required when the Apple ID is assocaited with multiple teams</span><br><span class="line">   )</span><br><span class="line"></span><br><span class="line">    <span class="function">increment_build_number</span>(</span><br><span class="line">      <span class="attribute">xcodeproj</span>: <span class="string">'./ios/helloWorldApp.xcodeproj'</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="function">gym</span>(</span><br><span class="line">      <span class="attribute">scheme</span>: <span class="string">'helloWorldApp'</span>,</span><br><span class="line">      <span class="attribute">project</span>: <span class="string">'./ios/helloWorldApp.xcodeproj'</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    pilot</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<p><strong>Updated on 8 December 2015</strong></p>
+<p><del>While Fastlane will take care of most of the stuff, we still need to register our app in Apple’s developer center. Login to <a href="https://developer.apple.com" target="_blank" rel="external">developer center</a> and setup the app in iOS Provisioning Portal and iTunes Connect with an explicit app id.</del></p>
+<p>We are using Fastlane <a href="https://github.com/fastlane/produce" target="_blank" rel="external">produce</a> to register our app on Dev portal and iTunes Connect.</p>
 <p>We also need to setup our app to auto increment app’s build and version number.<br><a href="https://developer.apple.com/library/ios/qa/qa1827/_index.html" target="_blank" rel="external">Follow these two steps</a> to enable agvtool and set up version and build number.</p>
 <p>While you have the Xcode open, also set the bundle identifier (com.amitkothari.helloworldapp) and team under the general tab.</p>
 <p>We also need to add app icon and launch screen images before uploading the app to TestFlight.</p>
@@ -208,7 +210,7 @@
 <p>“Invalid Provisioning Profile. The provisioning profile included in the bundle com.amitkothari.helloWorldApp [Payload/helloWorldApp.app] is invalid. [Missing code-signing certificate]. A Distribution Provisioning profile should be used when submitting apps to the App Store. For more information, visit the iOS Developer Portal.”</p>
 </blockquote>
 <p>Open the app in Xcode and under the build setting tab, set code signing provisioning profile to “$(PROFILE_UUID)” . See the image below or read <a href="https://github.com/fastlane/fastlane/blob/master/docs/CodeSigning.md" target="_blank" rel="external">this</a> for more details.</p>
-<img src="/2015/11/30/Continuous-deployment-of-React-Native-app-using-Fastlane/image.png" alt="Set provisiong profile in Xcode" title="Set provisiong profile in Xcode">
+<img src="/Continuous-deployment-of-React-Native-app-using-Fastlane/image.png" alt="Set provisiong profile in Xcode" title="Set provisiong profile in Xcode">
 
                         
                             
@@ -216,7 +218,7 @@
                         
                         
                             <p>
-                                <a href="/2015/11/30/Continuous-deployment-of-React-Native-app-using-Fastlane/#post-footer" class="postShorten-excerpt_link link">
+                                <a href="/Continuous-deployment-of-React-Native-app-using-Fastlane/#post-footer" class="postShorten-excerpt_link link">
                                     Comment and share
                                 </a>
                             </p>
